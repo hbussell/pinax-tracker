@@ -1,0 +1,49 @@
+body.dashboard #body{
+width:1024px!important;
+}
+.dashboard-cnt td{
+vertical-align:top;
+}
+.dashboard-module{
+margin:10px 0 10px 10px;
+}
+
+.dashboard-module .module-content{    
+    padding:1px;
+}
+.dashboard-module ul{
+list-style-type:none;
+margin:0px;
+padding:0px;
+}
+
+#projects li{
+padding:4px 0 4px 0;
+margin-bottom:2px;
+}
+#projects .ticket-count{
+background-color: #DDEEFF;
+padding:4px;
+margin-right:6px;
+}
+.dashboard-cnt{
+border-collapse: collapse;
+}
+
+#projects .project .wiki, #projects .project .topics{
+float:right;
+display:none;
+padding:4px;
+color:#777;
+font-size:11px;
+}
+
+#projects .project:hover{
+background-color:#fafafa;
+cursor:pointer;
+}
+
+#projects .project:hover .wiki, #projects .project:hover .topics{
+display:inline;
+}
+

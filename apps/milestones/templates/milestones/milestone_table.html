@@ -1,0 +1,53 @@
+{% extends "milestones/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load shorttimesince_tag %}
+{% load order_by %}
+{% load humanize %}
+{% load tasks_tags %}
+{% load tagging_tags %}
+{% load group_tags %}
+
+{#}{% block head_title %}Milestones for {{ project.name }}{% endblock %}#}
+{% block head_title %}Milestones{% endblock %}
+
+{% block body %}
+    {#<h1>{% trans "Milestones for Project" %} <a href="@@@">{{ group.name }}</a></h1> #}
+    <h1>Milestones</h1>
+    
+    <form action="" method="GET">
+        <div class="milestone_filter">
+            <ul>
+                {{ milestone_filter.form.as_ul }}
+                <li><input type="submit" value="filter"/></li>
+            </ul>
+        </div>
+        {% if group_by %}
+            <input type="hidden" name="group_by" value="{{ group_by }}" />
+        {% endif %}
+    </form>
+            
+    <table class="milestone_list">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Due</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody class="milestones">
+                    {% for milestone in milestones %}
+                        <tr class="milestone_{{ milestone.state }} {% cycle odd,even %}">
+                            <td>{{ milestone.id }}</td>
+                            <td><a href="{% groupurl milestone_detail group id=milestone.id %}">{{ milestone.title }}</a></td>
+                            <td style="white-space: nowrap">
+                                {{ milestone.get_due_display }}</td>
+                            <td>{{ milestone.get_state_display }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+   </table>
+    
+{% endblock %}

@@ -1,0 +1,153 @@
+
+
+.milestone_list .even {
+    background-color: #EEE;
+}
+.milestone_list .odd {
+    background-color: #DDD;
+}
+
+tr.milestone_resolved td, tr.milestone_closed td {
+    text-decoration: line-through;
+}
+tr.milestone_closed td {
+    text-decoration: line-through;
+    color: #999;
+}
+tr.milestone_closed td a {
+    color: #999;
+}
+
+table.milestone_list td {
+    vertical-align: top;
+    padding: 5px 20px 5px 5px;
+}
+
+table.milestone_list {
+    width: 100%;
+}
+
+table.milestone_list th {
+    background: #9BC;
+    text-align: left;
+    color: #FFF;
+    padding: 5px 20px 5px 5px;
+}
+
+tr.milestone_grouping {
+    background: #DEF;
+    color: #333;
+    border-top: 1px solid #BCD;
+}
+
+tr.milestone_grouping .toggle {
+    cursor: pointer;
+}
+
+tr.milestone_grouping .focus {
+    float: right;
+}
+tr.milestone_grouping .focus a {
+    color: #666;
+}
+
+tr.milestone_grouping .count {
+    color: #666;
+}
+div.milestone div.bulk h2 {
+    margin: 0;
+}
+div.milestone div.bulk {
+    margin-left: 158px;
+    padding: 4px;
+}
+
+div.milestone-meta {
+    float: left;
+    width: 150px;
+    margin: 0;
+    padding: 4px;
+    font-size: 80%;
+}
+
+div.milestone-meta2 {
+    color: #666;
+    margin-top: 1em;
+    font-size: 90%;
+}
+
+div.milestone-meta2 b {
+    color: #000;
+}
+
+h2.milestone_resolved, h2.milestone_closed {
+    text-decoration: line-through;
+}
+
+p.expand_collapse_all {
+    margin: 2px;
+    font-size: 8pt;
+}
+
+p.expand_collapse_all a {
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.milestone_filter ul {
+    background: #DEF;
+    padding: 5px;
+}
+
+.milestone_filter li {
+    display: inline;
+}
+
+
+table.progress {
+    border: 1px solid #D7D7D7;
+    border-collapse: collapse;
+    border-spacing: 0pt;
+    empty-cells: show;
+    text-align: center;
+    float:left;
+    margin: 1px 6px 1px 0px;
+}
+
+table.progress td { height: 0.9em; }
+table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
+table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
+table.progress td.open { background: #FFF none repeat scroll 0%; }
+p.pourcent {font-size: 80%;}
+p.progress-info {clear: left; font-style: italic; font-size: 80%;}
+
+.module {
+background:white none repeat scroll 0 0;
+border:1px solid #CCCCCC;
+margin-bottom:5px;
+}
+
+.module h2, .module caption, .inline-group h2 {
+background:#7CA0C7 url(/site_media/static/admin/img/admin/default-bg.gif) repeat-x scroll left top;
+color:white;
+font-size:11px;
+font-weight:bold;
+margin:0;
+padding:2px 5px 3px;
+text-align:left;
+}
+
+.calendarbox {
+z-index:99;
+}
+#milestones h3.milestone{
+background-image:url(../img/package.png);
+background-repeat:no-repeat;
+background-position:left center;
+padding-left:26px;
+}
+
+#milestones h3.milestone .closed{
+text-decoration: line-through;
+}

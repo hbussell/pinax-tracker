@@ -1,0 +1,55 @@
+
+{% load humanize i18n %}
+{% load pagination_tags %}
+{% load timezone_filters %}
+
+{% load dashboard_tags %}
+<div id="notices" class="dashboard-module ui-widget ui-widget-content ui-corner-all">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all
+        ui-helper-clearfix" unselectable="on" style="-moz-user-select:
+        none;"><span class="ui-dialog-title" id="ui-dialog-title-dialog"
+            unselectable="on" style="-moz-user-select: none;">Latest Notices</span>
+       </div>
+       <div class="module-content">
+
+       {% if request.user.is_authenticated %}
+
+        {% get_notices request.user as notices %}
+        {% autopaginate notices %}
+
+
+
+        {% if notices %}
+            <a href="{% url notification_mark_all_seen %}">{% trans "Mark all unseen notices seen" %}</a>
+            
+            {# TODO: get timezone support working with regroup #}
+            {% regroup notices by added.date as notices_by_date %}
+            
+            {% for date in notices_by_date %}
+                <h2 class="notice_date">{{ date.grouper|naturalday:_("MONTH_DAY_FORMAT")|capfirst }}</h2>
+                
+                {% for notice in date.list %}
+                    {% if notice.is_unseen %}
+                        <div class="unseen_notice">
+                    {% else %}
+                        <div class="notice">
+                    {% endif %}
+                        <span class="notice_type">[{% trans notice.notice_type.display %}]</span>
+                        <span class="notice_message">{{ notice.message|safe }}</span>
+                        <span class="notice_time">{{ notice.added|localtime:account.timezone|time:"P" }}</span>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            
+            {% paginate %}
+            
+        {% else %}
+            <p>{% trans "No notices." %}</p>
+            {% endif %}
+
+       {% else %}
+       <p><a href="{% acct_login %}">Login</a> to see notices</p>
+       {% endif %}
+    </div>
+ 
+</div>

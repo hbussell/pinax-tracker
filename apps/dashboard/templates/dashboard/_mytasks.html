@@ -1,0 +1,49 @@
+{% load dashboard_tags %}
+{% load tasks_tags %}
+{% load tagging_tags %}
+{% load group_tags %}
+
+
+<div id="mytasks" class="dashboard-module ui-widget ui-widget-content ui-corner-all">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all
+        ui-helper-clearfix" unselectable="on" style="-moz-user-select:
+        none;">
+        
+        <span style="float:right"><a href="{% url dashboard_all_tasks %}">View all</a></span>
+        <span class="ui-dialog-title" id="ui-dialog-title-dialog"
+            unselectable="on" style="-moz-user-select: none;">My Tasks</span>
+       </div>
+
+    <div class="module-content">
+    {% get_usertasks request.user as tasks %}
+    <table class="task_list" width="100%" cellspacing="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Task</th>
+            <th>Project</th>
+            <th>Tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        {% with task.group as group %}
+        <tr class="task_{{ task.get_state_display }} {% cycle odd,even %}">
+            <td width="20"><a href="{% groupurl task_detail group id=task.id %}">{{task.id}}</a></td>
+            
+            <td>{{task}}</td>
+            <td width="80"><a
+                    href="{{task.group.get_absolute_url}}">{{task.group}}</a></td>
+            <td width="120">
+                {% if task.tags %}
+                {% task_tags task group %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endwith %}
+    {% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+

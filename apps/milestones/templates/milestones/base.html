@@ -1,0 +1,17 @@
+{% extends group_base|default:"site_base.html" %}
+
+{% load i18n %}
+{% load group_tags %}
+
+{% block body_class %}tasks{% endblock %}
+
+{% block subnav %}
+    {% if user.is_authenticated %}
+    <ul>
+            <li><a href="{% groupurl milestone_add group %}">{% trans "Add Milestone" %}</a></li>
+            <li><a href="{% groupurl milestone_list group %}">{% trans "All Milestones" %}</a></li>
+        </ul>
+    {% else %}
+        &nbsp;
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "dashboard/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}Dashboard{% endblock %}
+
+{% block body %}
+
+    <h2>Dashboard</h2>
+
+    <table width="100%" cellpading="0" cellspacing="0" class="dashboard-cnt">
+    <tr>
+    <td width="70%">
+    {% include "dashboard/_mytasks.html" %}
+    {% include "dashboard/_notices.html" %}
+    </td>
+    <td>
+    {% include "dashboard/_projects.html" %}
+    </td>
+    </tr>
+    </table>
+    <br style="clear:both"/>
+{% endblock %}

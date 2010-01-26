@@ -1,0 +1,29 @@
+{% load dashboard_tags %}
+{% load group_tags %}
+
+<div id="projects" class="dashboard-module ui-widget ui-widget-content ui-corner-all">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all
+        ui-helper-clearfix" unselectable="on" style="-moz-user-select:
+        none;"><span class="ui-dialog-title" id="ui-dialog-title-dialog"
+            unselectable="on" style="-moz-user-select: none;">Projects</span>
+       </div>
+       <div class="module-content">
+    {% get_projects as projects %}
+    <ul>
+{% for project in projects %}
+<li class="project">
+ 
+    <a class="wiki" href="{% groupurl wiki_list project  %}">Wiki</a>
+    
+    <a class="topics" href="{% groupurl topic_list project  %}">Topics</a>
+
+    <span class="ticket-count">
+        <a title="View open Tasks in project" class="tooltip" href="{% groupurl task_list project %}">{% project_task_count project %}</a>
+    </span>
+    <a class="project" href="{{ project.get_absolute_url }}">{{project}}</a>
+   
+</li>
+{% endfor %}
+</ul>
+</div>
+</div>

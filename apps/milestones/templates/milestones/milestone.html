@@ -1,0 +1,58 @@
+{% extends "milestones/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load tasks_tags %}
+{% load comments_tag %}
+{% load uni_form_tags %}
+{% load attachments_tags %}
+{% load group_tags %}
+{% load theme_tags %}
+{% load wiki_tags %}
+{% load markup_tags %}
+{
+
+{% block head_title %}{{ milestone.summary }}{% endblock %}
+
+{% block body %}
+
+<script type="text/javascript" src="/admin/jsi18n/"></script> 
+<script type="text/javascript" src="{{STATIC_URL}}admin/js/core.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}admin/css/widgets.css" />
+
+    <h2>{{milestone.title}}</h2>
+    <p>{{milestone.detail}}</p>
+    
+    {{ milestone.detail|apply_markup:milestone.markup|wiki_links }}
+
+    <form action="" method="GET">
+        <div class="task_filter">
+            <ul>
+                {{ task_filter.form.as_ul }}
+                <li><input type="submit" value="filter"/></li>
+            </ul>
+        </div>
+        {% if group_by %}
+            <input type="hidden" name="group_by" value="{{ group_by }}" />
+        {% endif %}
+    </form>
+    {% include "milestones/_tasks.html" %}
+
+    {% if is_member %}
+        <h2>{% trans "Edit" %}</h2>
+        <form method="POST" action="" id="task_form" class="uniForm">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form|as_uni_form }}
+            
+            <div class="form_block">
+                <input type="submit" value="{% trans "Update Task" %}" />
+            </div>
+            
+        </form>
+    {% endif %}
+
+
+
+{% endblock %}
