@@ -1,0 +1,28 @@
+{% load dashboard_tags %}
+{% load group_tags %}
+
+<div id="projects" class="dashboard-module ui-widget ui-widget-content ui-corner-all">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all
+        ui-helper-clearfix" unselectable="on" style="-moz-user-select:
+        none;"><span class="ui-dialog-title" id="ui-dialog-title-dialog"
+            unselectable="on" style="-moz-user-select: none;">Watched Tasks</span>
+       </div>
+       <div class="module-content">
+    {% get_watched_tasks request.user as watched %}
+    <ul>
+    {% for watch in watched %}
+    {% with watch.observed_object as task %}
+        <li class="task">
+            {% if task.group %}
+                {% with task.group as project %}
+                <a href="{% groupurl task_detail project id=task.id %}">{{task}}</a>
+                {% endwith %}        
+            {% else %}
+                <a href="{% url task_detail task.id %}">{{task}}</a>
+            {% endif %}
+        </li>
+    {% endwith %}        
+    {% endfor %}
+</ul>
+</div>
+</div>

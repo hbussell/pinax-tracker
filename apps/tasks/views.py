@@ -6,7 +6,10 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.db.models import Q, get_app
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import (Http404, HttpResponseRedirect,
+                         HttpResponseNotAllowed, HttpResponse, HttpResponseForbidden)
+
+from django.views.generic.simple import redirect_to
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext
@@ -84,10 +87,10 @@ def tasks(request, group_slug=None, template_name="tasks/task_list.html", bridge
                    #milestones}
     filter_data.update(request.GET)
     if group:
-        task_filter = TaskMilestoneFilter(group, filter_data, queryset=tasks)
+        task_filter = TaskMilestoneFilter(project=group, data=filter_data, queryset=tasks)
     else:
         task_filter = TaskFilter(filter_data, queryset=tasks)
-    
+        
     group_by_querydict = request.GET.copy()
     group_by_querydict.pop("group_by", None)
     group_by_querystring = group_by_querydict.urlencode()
@@ -315,7 +318,11 @@ def task(request, id, group_slug=None, template_name="tasks/task.html", bridge=N
     # The NUDGE dictionary
     nudge = {}
     nudge["nudgeable"] = False
-    
+    if notification is not None:
+        is_observing = notification.is_observing(task, request.user)
+    else:
+        is_observing = False
+
     # get the count of nudges so assignee can see general level of interest.
     nudge["count"] = Nudge.objects.filter(task__exact=task).count()
     
@@ -334,6 +341,7 @@ def task(request, id, group_slug=None, template_name="tasks/task.html", bridge=N
         "group": group,
         "nudge": nudge,
         "task": task,
+        "is_observing": is_observing, 
         "is_member": is_member,
         "form": form,
         "group_base": group_base,
@@ -625,3 +633,104 @@ def tasks_history(request, id, group_slug=None, template_name="tasks/task_histor
 def export_state_transitions(request):
     export = workflow.export_state_transitions()
     return HttpResponse(export, mimetype="text/csv")
+
+
+@login_required
+def observe_task(request, id,
+                    group_slug=None, bridge=None,
+                    task_qs=Task.objects.all(),
+                    is_member=None,
+                    is_private=None,
+                    *args, **kw):
+    if request.method == 'POST':
+        task_args = {'id': id}
+        group = None
+        if group_slug is not None:
+            try:
+                group = bridge.get_group(group_slug)
+            except ObjectDoesNotExist:
+                raise Http404
+            content_type = ContentType.objects.get_for_model(group)
+            task_args.update({'content_type': content_type,
+                                 'object_id': group.id})
+            allow_read = has_read_perm(request.user, group, is_member,
+                                       is_private)
+        else:
+            group = None
+            allow_read = True
+
+        if not allow_read:
+            return HttpResponseForbidden()
+
+        task = get_object_or_404(task_qs, **task_args)
+
+        notification.observe(task, request.user,
+                             'task_observed_task_changed')
+        
+        url = get_url('task_detail', group, kw={
+            'id': task.id,
+        }, bridge=bridge)
+        
+        return redirect_to(request, url)
+
+    return HttpResponseNotAllowed(['POST'])
+
+
+@login_required
+def stop_observing_article(request, id,
+                           group_slug=None, bridge=None,
+                           task_qs=Task.objects.all(),
+                           is_member=None,
+                           is_private=None,
+                           *args, **kw):
+    if request.method == 'POST':
+
+        task_args = {'id':id}
+        group = None
+        if group_slug is not None:
+            try:
+                group = bridge.get_group(group_slug)
+            except ObjectDoesNotExist:
+                raise Http404
+            content_type = ContentType.objects.get_for_model(group)
+
+            task_args.update({'content_type': content_type,
+                                 'object_id': group.id})
+            allow_read = has_read_perm(request.user, group, is_member,
+                                       is_private)
+        else:
+            group = None
+            allow_read = True
+            task_args.update({'object_id': None})
+
+        if not allow_read:
+            return HttpResponseForbidden()
+
+        task = get_object_or_404(task_qs, **task_args)
+
+        notification.stop_observing(task, request.user)
+        
+        url = get_url('task_detail', group, kw={
+            'id': task.id,
+        }, bridge=bridge)
+        
+        return redirect_to(request, url)
+    return HttpResponseNotAllowed(['POST'])
+
+def get_url(urlname, group=None, args=None, kw=None, bridge=None):
+    if group is None:
+        # @@@ due to group support passing args isn't really needed
+        return reverse(urlname, args=args, kwargs=kw)
+    else:
+        return bridge.reverse(urlname, group, kwargs=kw)
+        
+def has_read_perm(user, group, is_member, is_private):
+    """ Return True if the user has permission to *read*
+    Articles, False otherwise.
+    """
+    if (group is None) or (is_member is None) or is_member(user, group):
+        return True
+    if (is_private is not None) and is_private(group):
+        return False
+    return True
+

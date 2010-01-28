@@ -26,18 +26,16 @@ class TaskMilestoneFilter(filters.FilterSet):
     )
     
     def __init__(self, project, data=None, queryset=None, prefix=None):
-        super(TaskMilestoneFilter, self).__init__(data=data,
-                                                  queryset=queryset,
-                                                  prefix=prefix)
+        super(TaskMilestoneFilter, self).__init__(data, queryset, prefix)
 
         content_type = ContentType.objects.get_for_model(Project)
-        self.filters['milestone'] = filters.MultipleChoiceFilter(
+        self.filters['milestone'] = filters.MultipleChoiceFilter('milestone',
             choices = tuple([(m.id, m.title) for m in
                              Milestone.objects.filter(content_type=content_type,
                                  object_id=project.id)]),
             widget = forms.CheckboxSelectMultiple,
         )
-
+    
     class Meta:
         model = Task
         fields = ["state", "milestone"]

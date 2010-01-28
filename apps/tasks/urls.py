@@ -12,13 +12,17 @@ tasks_feed_dict = {"feed_dict": {
 
 urlpatterns = patterns("",
     url(r"^$", "tasks.views.tasks", name="task_list"),
-    url(r"^(?P<field>modified|state|assignee|tag)/(?P<value>[^/]+)/$", "tasks.views.focus", name="task_focus"),
+    url(r"^(?P<field>modified|state|assignee|tag|milestone)/(?P<value>[^/]+)/$", "tasks.views.focus", name="task_focus"),
     url(r"^add/$", "tasks.views.add_task", name="task_add"),
     url(r"^add/with-paste/(?P<secret_id>\w+)/$", "tasks.views.add_task", name="task_add_paste"),
     url(r"^task/(?P<id>\d+)/$", "tasks.views.task", name="task_detail"),
     url(r"^tasks_for_user/(?P<username>[-\w]+)/$", "tasks.views.user_tasks", name="tasks_for_user"),
     url(r"^mini_list/$", "tasks.views.mini_list", name="tasks_mini_list"),
     
+    url(r'observe/(?P<id>\d+)/$', 'tasks.views.observe_task', name='task_observe'),
+    url(r'stop_observing/(?P<id>\d+)/$', 'tasks.views.observe_task',
+        name='task_stop_observing'),
+
     # history
     url(r"^history/$", "tasks.views.tasks_history_list", name="tasks_history_list"),
     url(r"^history/(?P<id>\d+)/$", "tasks.views.tasks_history", name="tasks_history"),
