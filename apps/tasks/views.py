@@ -161,7 +161,6 @@ def add_task(request, group_slug=None, secret_id=None, form_class=TaskForm, temp
                 messages.add_message(request, messages.SUCCESS,
                     ugettext("added task '%s'") % task.summary
                 )
-                import pdb;pdb.set_trace()
                 if notification:
                     if group:
                         notify_list = group.member_queryset()

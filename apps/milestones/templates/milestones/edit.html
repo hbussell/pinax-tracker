@@ -1,0 +1,38 @@
+{% extends "milestones/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load tasks_tags %}
+{% load comments_tag %}
+{% load uni_form_tags %}
+{% load attachments_tags %}
+{% load group_tags %}
+{% load theme_tags %}
+{% load wiki_tags %}
+{% load markup_tags %}
+{
+
+{% block head_title %}{{ milestone.summary }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}admin/css/widgets.css" />
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="/admin/jsi18n/"></script> 
+<script type="text/javascript" src="{{STATIC_URL}}admin/js/core.js"></script>
+{% endblock %}
+
+{% block body %}
+
+
+    <h2>{% trans "Edit Milestone" %}</h2>
+    <form method="POST" action="" id="task_form" class="uniForm">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form|as_uni_form }}
+        <div class="form_block">
+            <input type="submit" value="{% trans "Update Task" %}" />
+        </div>
+    </form>
+{% endblock %}

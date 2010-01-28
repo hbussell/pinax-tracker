@@ -100,12 +100,10 @@ class Milestone(models.Model):
 
     @property
     def progress_complete(self):
-
         from tasks.models import Task
         closed_tasks = Task.objects.filter(Q(milestone=self)).filter(Q(state='2') | Q(state='3'))
         todo_tasks = Task.objects.filter(Q(milestone=self) & ~Q(state='2') & ~Q(state='3'))
-#        todo_tasks = Task.objects.filter(milestone=self, state='1')
-        return todo_tasks.count() == 0
+        return todo_tasks.count() == 0 and closed_tasks.count() > 0
 
     @property
     def closed_count(self):

@@ -8,6 +8,7 @@
             unselectable="on" style="-moz-user-select: none;">Watched Tasks</span>
        </div>
        <div class="module-content">
+    {% if request.user.is_authenticated %}
     {% get_watched_tasks request.user as watched %}
     <ul>
     {% for watch in watched %}
@@ -23,6 +24,7 @@
         </li>
     {% endwith %}        
     {% endfor %}
+    {% endif %}
 </ul>
 </div>
 </div>

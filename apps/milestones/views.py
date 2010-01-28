@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.db.models import Q, get_app
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext
@@ -164,7 +164,6 @@ def add_milestone(request, group_slug=None, secret_id=None,
 
 def milestone_detail(request, id, group_slug=None,
               template_name="milestones/milestone.html", bridge=None):
-    
     if bridge:
         try:
             group = bridge.get_group(group_slug)
@@ -172,22 +171,18 @@ def milestone_detail(request, id, group_slug=None,
             raise Http404
     else:
         group = None
-    
     if group:
         milestones = group.content_objects(Milestone)
         group_base = bridge.group_base_template()
     else:
         milestones = Milestone.objects.filter(object_id=None)
         group_base = None
-    
     milestone = get_object_or_404(milestones, id=id)
-    
     if group:
         notify_list = group.member_queryset()
     else:
         notify_list = User.objects.all()
     notify_list = notify_list.exclude(id__exact=request.user.id)
-    
     if not request.user.is_authenticated():
         is_member = False
     else:
@@ -195,7 +190,78 @@ def milestone_detail(request, id, group_slug=None,
             is_member = group.user_is_member(request.user)
         else:
             is_member = True
-    
+    ## milestone tasks
+    from tasks.models import Task
+    from tasks import workflow
+    from tasks.filters import TaskFilter
+
+    group_by = request.GET.get("group_by")
+
+    if group:
+        tasks = group.content_objects(Task)
+        group_base = bridge.group_base_template()
+    else:
+        tasks = Task.objects.filter(object_id=None)
+        group_base = None
+    tasks = tasks.select_related("assignee")
+
+    # default filtering
+    state_keys = dict(workflow.STATE_CHOICES).keys()
+    default_states = set(state_keys)
+    filter_data = {"state": list(default_states)}
+    filter_data.update(request.GET)
+    task_filter = TaskFilter(filter_data, queryset=tasks)
+    group_by_querydict = request.GET.copy()
+    group_by_querydict.pop("group_by", None)
+    group_by_querystring = group_by_querydict.urlencode()
+
+    return render_to_response(template_name, {
+        "group": group,
+        "milestone": milestone,
+        "is_member": is_member,
+        "group_base": group_base,
+        "group_by": group_by,
+        "gbqs": group_by_querystring,
+        "is_member": is_member,
+        "task_filter": task_filter,
+        "tasks": task_filter.qs.filter(milestone=milestone),
+        "querystring": request.GET.urlencode(),
+
+    }, context_instance=RequestContext(request))
+
+@login_required
+def milestone_edit(request, id, group_slug=None,
+              template_name="milestones/edit.html", bridge=None):
+
+    if bridge:
+        try:
+            group = bridge.get_group(group_slug)
+        except ObjectDoesNotExist:
+            raise Http404
+    else:
+        group = None
+    if group:
+        milestones = group.content_objects(Milestone)
+        group_base = bridge.group_base_template()
+    else:
+        milestones = Milestone.objects.filter(object_id=None)
+        group_base = None
+    milestone = get_object_or_404(milestones, id=id)
+    if group:
+        notify_list = group.member_queryset()
+    else:
+        notify_list = User.objects.all()
+    notify_list = notify_list.exclude(id__exact=request.user.id)
+    if group:
+        is_member = group.user_is_member(request.user)
+    else:
+        is_member = True
+    if not is_member:
+        messages.add_message(request, messages.ERROR,
+            ugettext("You can't edit milestones unless you are a project member")
+        )
+        return HttpResponseRedirect(reverse("project_list"))
+
     if is_member and request.method == "POST":
         form = EditMilestoneForm(request.user, group, request.POST, instance=milestone)
         if form.is_valid():
@@ -211,54 +277,13 @@ def milestone_detail(request, id, group_slug=None,
             form = EditMilestoneForm(request.user, group, instance=milestone)
     else:
         form = EditMilestoneForm(request.user, group, instance=milestone)
-  
-    ## milestone tasks
-
-
-    from tasks.models import Task 
-    from tasks import workflow
-    from tasks.filters import TaskFilter
- 
-    group_by = request.GET.get("group_by")
-
-    if group:
-        tasks = group.content_objects(Task)
-        group_base = bridge.group_base_template()
-    else:
-        tasks = Task.objects.filter(object_id=None)
-        group_base = None
-    
-    tasks = tasks.select_related("assignee")
-
-    # default filtering
-    state_keys = dict(workflow.STATE_CHOICES).keys()
-    default_states = set(state_keys) 
-    filter_data = {"state": list(default_states)}
-    filter_data.update(request.GET)
-    
-    task_filter = TaskFilter(filter_data, queryset=tasks)
-#    task_filter.filter('milestone', milestone.id)
-    
-    group_by_querydict = request.GET.copy()
-    group_by_querydict.pop("group_by", None)
-    group_by_querystring = group_by_querydict.urlencode()
-
-    del task_filter.filters['milestone']
-
     return render_to_response(template_name, {
         "group": group,
         "milestone": milestone,
         "is_member": is_member,
         "form": form,
-        "group_base": group_base,
-
-        "group_by": group_by,
-        "gbqs": group_by_querystring,
-        "is_member": is_member,
-        "task_filter": task_filter,
-        "tasks": task_filter.qs.filter(milestone=milestone),
-        "querystring": request.GET.urlencode(),
-
+        "group_base": group_base
     }, context_instance=RequestContext(request))
+
 
 
