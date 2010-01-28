@@ -178,8 +178,8 @@ INSTALLED_APPS = [
 
     "milestones",
     "dashboard",
-    "squaretracker",
-    "squaretracker_results",
+#    "squaretracker",
+#    "squaretracker_results",
     "test_notification",
     
 ]

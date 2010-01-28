@@ -41,8 +41,8 @@ urlpatterns = patterns("",
     (r"^attachments/", include("attachments.urls")),
     (r"^projects/", include("projects.urls")),
     
-    (r'^tracker/results/', include('squaretracker_results.urls')),
-    (r'^tracker/api/', include('squaretracker.urls')),
+#    (r'^tracker/results/', include('squaretracker_results.urls')),
+#    (r'^tracker/api/', include('squaretracker.urls')),
 
     (r"^admin/", include(admin.site.urls)),
 )

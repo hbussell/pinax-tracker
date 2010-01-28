@@ -28,7 +28,9 @@
 
         <ul class="tabs">{% spaceless %}
             <li id="tab_dashboard"><a href="{% url home %}">{% trans "Dashboard" %}</a></li>
+            {% comment %}
             <li id="tab_testruns"><a href="{% url squaretracker_testruns %}">{% trans "Test Runs" %}</a></li>
+            {% endcomment %}
             <li id="tab_projects"><a href="{% url project_list %}">{% trans "Projects" %}</a></li>
             {% if user.is_authenticated %}
             <li id="tab_profile"><a href="{% url profile_detail user %}">{% trans "Profile" %}</a></li>
