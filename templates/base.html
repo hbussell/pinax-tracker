@@ -9,6 +9,8 @@
                 zoom: 1; /* trigger hasLayout */
             }
         </style><![endif]-->
+        {% load compress %}
+        {% compress css %}
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/base.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/tabs.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/facebox.css" />
@@ -16,34 +18,22 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/accounts.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" />
-
         <link rel="stylesheet" href="{{ STATIC_URL}}themes/base/ui.all.css" />
         <link rel="stylesheet" href="{{ STATIC_URL}}themes/flick/ui.all.css" />
-
         <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/site_tabs.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}tasks/css/tasks.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}milestones/css/milestones.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/css/dashboard.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/groups.css" />
+
         {% block extra_css %}
-        {% endblock %}
-        <script src="{{ STATIC_URL }}squaretracker_results/js/jquery-1.4.js" type="text/javascript"></script>
-        {% comment %}
-        <script type="text/javascript" href="{{STATIC_URL}}js/jquery-ui-1.7.2.custom.min.js"></script>
-        <script type="text/javascript" href="{{STATIC_URL}}js/jquery.ui.tooltip.js"></script>
 
-                {% endcomment %}
-        <script src="{{ STATIC_URL }}pinax/js/base.js" type="text/javascript"></script>
-        <script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
-
-        {% block extra_js %}
         {% endblock %}
 
-        {% comment %}
-        <script type="text/javascript">
+        {% endcompress %}
 
-            $(function() {
-                    $(".project").tooltip();
-                    });
- 
-                </script>
-                {% endcomment %}
+
         {% if LANGUAGE_BIDI %}
         <style type="text/css" media="screen">
             div.right_panel {
@@ -98,8 +88,23 @@
         {% endblock %}
         
         <div id="footer">{% block footer %}{% endblock %}</div>
-        
-              {% include "facebox_js.html" %}
+        {% compress js %}
+        <script src="{{ STATIC_URL }}squaretracker_results/js/jquery-1.4.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}tasks/js/tasks.js" type="text/javascript"></script>
+        {% comment %}
+        <script type="text/javascript" href="{{STATIC_URL}}js/jquery-ui-1.7.2.custom.min.js"></script>
+        <script type="text/javascript" href="{{STATIC_URL}}js/jquery.ui.tooltip.js"></script>
+
+                {% endcomment %}
+        <script src="{{ STATIC_URL }}pinax/js/base.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
+
+        {% block extra_js %}
+        {% endblock %}
+
+        {% include "facebox_js.html" %}
+        {% endcompress %}
+ 
         {% block extra_body_base %}
             {% block extra_body %}{% endblock %}
         {% endblock %}

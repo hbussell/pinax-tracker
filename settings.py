@@ -178,12 +178,15 @@ INSTALLED_APPS = [
 
     "milestones",
     "dashboard",
+    "compressor",
 #    "squaretracker",
 #    "squaretracker_results",
 #    "test_notification",
     
 ]
-
+#COMPRESS = True
+COMPRESS_URL = STATIC_URL
+COMPRESS_ROOT = STATIC_ROOT
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 ABSOLUTE_URL_OVERRIDES = {

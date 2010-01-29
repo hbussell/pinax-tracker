@@ -6,12 +6,12 @@
 {% load ifsetting_tag %}
 
 {% block extra_head_base %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/site_tabs.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}tasks/css/tasks.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}milestones/css/milestones.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/css/dashboard.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/groups.css" />
     {% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+
 {% endblock %}
 
 {% block login %}
@@ -42,7 +42,6 @@
 
 
 {% block extra_body_base %}
-    <script src="{{ STATIC_URL }}tasks/js/tasks.js" type="text/javascript"></script>
     {% block extra_body %}{% endblock %}
 {% endblock %}
 
