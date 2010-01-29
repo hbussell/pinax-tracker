@@ -14,6 +14,7 @@ from tasks.widgets import ReadOnlyWidget
 from tagging_utils.widgets import TagAutoCompleteInput
 from tagging.forms import TagField
 
+from milestones.models import Milestone
 
 
 class TaskForm(forms.ModelForm):
@@ -34,11 +35,13 @@ class TaskForm(forms.ModelForm):
         
         if group:
             assignee_queryset = group.member_queryset()
+            milestone_queryset = Milestone.get_project_milestones(group)
         else:
             assignee_queryset = self.fields["assignee"].queryset
         
         self.fields["assignee"].queryset = assignee_queryset.order_by("username")
         self.fields["summary"].widget.attrs["size"] = 65
+        self.fields["milestone"].queryset = milestone_queryset
     
     class Meta:
         model = Task
@@ -76,10 +79,12 @@ class EditTaskForm(forms.ModelForm):
         
         if group:
             assignee_queryset = group.member_queryset()
+            milestone_queryset = Milestone.get_project_milestones(group)
         else:
             assignee_queryset = self.fields["assignee"].queryset
         
         self.fields["assignee"].queryset = assignee_queryset.order_by("username")
+        self.fields["milestone"].queryset = milestone_queryset
         self.fields["summary"].widget.attrs["size"] = 65
         self.fields.keyOrder = [
             "summary",

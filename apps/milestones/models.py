@@ -139,6 +139,11 @@ class Milestone(models.Model):
     def closed(self):
         return self.state != '1'
 
+    @classmethod
+    def get_project_milestones(cls, project):
+        ct = ContentType.objects.get_for_model(project)
+        return cls.objects.filter(content_type=ct, object_id=project.id)
+
     def allowable_states(self, user):
         """
         return state choices allowed given current state and user
