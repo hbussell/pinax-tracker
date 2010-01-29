@@ -48,6 +48,11 @@ Build app media into static_media ::
 
     python manage.py build_static
 
+Optionally install the sample data ::
+
+    python manage.py loaddata sample_data.json
+
+
 Now you can run syncdb and start the project ::
 
     python manage.py syncdb
