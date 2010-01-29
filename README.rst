@@ -16,3 +16,37 @@ I would like to borrow as much as possible from the excelent Basie project (http
 Try the demo: http://pinax-tracker.hbussell.com
 
 Login as demo / demo
+
+------------
+Installation
+------------
+
+Create a new virtual env ::
+    mkdir pinax-tracker
+    cd pinax-tracker
+    virtualenv --no-site-packages env
+
+Activate virtual env ::    
+    source env/bin/activate
+
+Install pip ::
+    easy_install pip
+
+Clone the project into the website folder ::
+    git clone git://github.com/hbussell/pinax-tracker.git website
+
+Install requirements ::
+    cd website
+    pip install -r frozen.txt
+
+Now you can run syncdb and start the project ::
+    python manage.py syncdb
+    python manage.py runserver
+
+   
+
+If you want to use the topics app you will have to patch pinax with this diff.
+http://code.pinaxproject.com/paste/Hegm/    
+
+
+
