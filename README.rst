@@ -44,6 +44,10 @@ Install requirements ::
     cd website
     pip install -r frozen.txt
 
+Build app media into static_media ::
+
+    python manage.py build_static
+
 Now you can run syncdb and start the project ::
 
     python manage.py syncdb
