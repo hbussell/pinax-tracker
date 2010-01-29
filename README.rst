@@ -22,24 +22,30 @@ Installation
 ------------
 
 Create a new virtual env ::
+
     mkdir pinax-tracker
     cd pinax-tracker
     virtualenv --no-site-packages env
 
 Activate virtual env ::    
+
     source env/bin/activate
 
 Install pip ::
+
     easy_install pip
 
 Clone the project into the website folder ::
+
     git clone git://github.com/hbussell/pinax-tracker.git website
 
 Install requirements ::
+
     cd website
     pip install -r frozen.txt
 
 Now you can run syncdb and start the project ::
+
     python manage.py syncdb
     python manage.py runserver
 
