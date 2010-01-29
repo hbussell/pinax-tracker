@@ -36,6 +36,5 @@ template_utils==0.4p2
 django-staticfiles==0.2.0
 django-groups>=0.1-dev1
 
--e git+ssh://mail/var/projects/square-tracker#egg=square-tracker
 -e hg+http://code.welldev.org/django-oauth#egg=django-oauth
 -e git+git://github.com/alex/django-templatetag-sugar.git#egg=django-templatetag-sugar
