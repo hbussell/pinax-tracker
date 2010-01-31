@@ -37,6 +37,6 @@ django-staticfiles==0.2.0
 django-groups>=0.1-dev1
 GitPython
 
--e git+git://github.com/mintchaos/django_compressor.git#django-compressor
+-e git+git://github.com/mintchaos/django_compressor.git#egg=django-compressor
 -e hg+http://code.welldev.org/django-oauth#egg=django-oauth
 -e git+git://github.com/alex/django-templatetag-sugar.git#egg=django-templatetag-sugar
