@@ -71,7 +71,11 @@ def get_path_commit(tree, path, repo, ref='master'):
     if cached:
         return cached
     commits = repo.commits(path=path, max_count=1)
-    commit = commits[0]
+    if len(commits)>0:
+        commit = commits[0]
+    else:
+        commits = repo.commits(max_count=1)
+        commit = commits[0]
     cache.set(path_key, commit)
     return commit
 
@@ -164,12 +168,7 @@ def commit_detail(request, project_slug, commit_id):
     project = project
     repo = get_repo(project)
     nodes = []
-    commit = None
-    for c in repo.get_git_repo().commits():
-        if c.id == commit_id:
-            commit = c
-            break
-
+    commit = repo.get_git_repo().commit(commit_id)
     files = {}
     for name, stats in commit.stats.files.items():
         if stats['deletions'] ==0:
