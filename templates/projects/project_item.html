@@ -10,6 +10,9 @@
         <br />
         {% trans "Tasks:" %} <b>{{ project.task_count }}</b>
         <br />
+        {% trans "Source:" %} <b>{% url vcs_root project.slug %}</b>
+        <br />
+
 
         {% show_tags_for project %} {# @@@ #}
     </div>

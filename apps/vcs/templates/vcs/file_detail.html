@@ -1,0 +1,53 @@
+{% extends "vcs/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load tasks_tags %}
+{% load comments_tag %}
+{% load uni_form_tags %}
+{% load attachments_tags %}
+{% load group_tags %}
+{% load theme_tags %}
+{% load wiki_tags %}
+{% load markup_tags %}
+
+
+{% block head_title %}{{ milestone.summary }}{% endblock %}
+
+{% block body %}
+
+
+<div id="crumbs">
+<ul>
+    {% for name, crumb_url in crumbs %}
+    <li>
+        {% if crumb_url %}
+        <a href="{{crumb_url}}">{{name}}</a> &nbsp; / &nbsp;
+        {% else %}
+        <span>{{name}}</span>
+        {% endif %}
+    </li>
+    {% endfor %}
+    <br style="clear:both"/>
+</ul>
+</div>
+
+<div id="files">
+<div class="file" id="diff-1">
+          <div class="meta">
+            <div class="info">
+                <span class="path"><a href="#">{{name}}</a></span>
+            </div>
+            <div class="actions">
+            </div>
+          </div>      
+            
+          <div class="data syntax">
+              <pre>
+                {{root.data}}
+              </pre>
+          </div>
+
+</div>
+
+   {% endblock %}

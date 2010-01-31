@@ -1,0 +1,47 @@
+testrepo1:
+    repository:
+        path: http://www.somesvnpath.com/svn
+
+testrepo2:    
+    repository:
+        path: http://www.somesvnpath.com/svn2
+        branches: 
+            - branch1
+            - branch2
+
+testrepo3:        
+    repository:
+        path: http://www.somesvnpath.com/svn3
+        branches: 
+            - branch1
+            - branch2
+        revisions:
+            - revision1
+            - revision2
+
+testbranch1:
+    branches:
+        branch1:
+            head: revision5
+
+testbranch2:
+    branches:
+        branch1:
+            head: revision5
+        branch3:
+            head: revision35
+        branch6:
+            head: revision1
+
+testrevision1:
+    revision1:
+        properties:
+            - ignore
+
+testrevision2:
+    revision6:
+        predecessors:
+            - revision5
+            - revision4
+        diffwithparent:
+            - diffobject

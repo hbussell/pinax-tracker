@@ -1,0 +1,40 @@
+# This is a guide to using Mock of PyVCAL
+#
+# Below is an example of a repository representation in YAML
+#
+# Any branch declarations will have branch set to None. If you anticipate you 
+# will need to real branch, it is recommended that you skip the declaration here
+# and define it in branches instead.
+
+repository:
+    path: http://www.somesvnpath.com/svn
+    branches:           # optional
+        - branch1
+        - branch2
+        - branch3
+    revisions:          # optional
+        - revision1
+        - revision2
+        - revision3
+
+# Below is an example of a branch representation in YAML
+branches:
+    branch1:
+        head: revision3
+    branch2:
+        head: revision1
+
+# Below is an exmaple of revisions representation in YAML
+revisions:
+    revision6:
+        predecessors:       # optional
+            - revision5
+            - revision4
+        properties: 
+            - revisionProp1
+            - revisionProp2
+        diffwithparent:     # optional
+            - some diff here
+        
+    
+    

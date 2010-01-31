@@ -1,0 +1,56 @@
+{% extends "vcs/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load tasks_tags %}
+{% load comments_tag %}
+{% load uni_form_tags %}
+{% load attachments_tags %}
+{% load group_tags %}
+{% load theme_tags %}
+{% load wiki_tags %}
+{% load markup_tags %}
+
+
+{% block head_title %}{{ milestone.summary }}{% endblock %}
+
+{% block body %}
+
+
+
+<div id="crumbs">
+<ul>
+    {% for name, crumb_url in crumbs %}
+    <li>
+        {% if crumb_url %}
+        <a href="{{crumb_url}}">{{name}}</a> &nbsp; / &nbsp;
+        {% else %}
+        <span>{{name}}</span>
+        {% endif %}
+    </li>
+{% endfor %}
+    <br style="clear:both"/>
+</ul>
+</div>
+
+
+<table id="vcs_browser" width="100%" cellspacing="1">
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>age</th>
+            <th>message</th>
+        </tr>    
+    </thead>
+    <tbody>
+    {% for node in tree %}
+    <tr>
+        <td class="{{node.type}}"><a href="{{ node.url }}">{{node.name}}</a></td>
+        <td>{{node.committed_date|timesince}}</td>
+        <td><a href="{% url vcs_commit_details project.slug node.commit_id %}">{{node.message|truncatewords:5}}</a>
+            <span class="author">[{{node.committer}}</span></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+   {% endblock %}

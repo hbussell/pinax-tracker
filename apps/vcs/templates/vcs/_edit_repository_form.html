@@ -1,0 +1,15 @@
+
+{% load i18n %}
+{% load uni_form_tags %}
+<form class="uniForm" id="edit-repository" method="POST" 
+    action="{% url vcs_repository_edit project.slug %}">
+    {% csrf_token %}
+<fieldset class="inlineLabels">
+    {{ form|as_uni_form }}
+    <div class="form_block">
+        <input type="hidden" name="action" value="update" />
+            <input type="submit" value="{% trans "update" %}"/>
+        </div>
+    </fieldset>
+</form>
+

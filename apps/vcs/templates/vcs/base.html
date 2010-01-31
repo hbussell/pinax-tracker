@@ -1,0 +1,14 @@
+{% extends group_base|default:"site_base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ STATIC_URL }}vcs/css/vcs.css" />
+{% endblock %}
+
+
+
+{% load i18n %}
+{% load group_tags %}
+
+{% block body_class %}tasks{% endblock %}
+
+

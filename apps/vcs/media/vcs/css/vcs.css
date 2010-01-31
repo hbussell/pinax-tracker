@@ -1,0 +1,134 @@
+#vcs_browser {
+border-left:1px solid #D8D8D8;
+border-right:1px solid #D8D8D8;
+border-top:1px solid #D8D8D8;
+font-family:Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+font-size:90%;
+width:100%;
+}
+#vcs_browser th {
+background-color:#EAEAEA;
+border-bottom:1px solid #D8D8D8;
+color:#999999;
+font-weight:normal;
+padding:0.5em 0.3em;
+text-align:left;
+}
+#vcs_browser td {
+background:#F8F8F8 url(/images/modules/browser/row_bg.png) repeat-x scroll 0 100%;
+border-bottom:1px solid #E1E1E1;
+color:#484848;
+padding:0.5em 0.3em;
+}
+
+
+#vcs_browser .tree{
+padding-left:20px;
+background-image:url('/site_media/static/pinax/images/silk/icons/folder.png');
+background-repeat:no-repeat;
+background-position:center left;
+}
+
+#vcs_browser .file{
+padding-left:20px;
+background-image:url('/site_media/static/pinax/images/silk/icons/page_white_text.png');
+background-repeat:no-repeat;
+background-position:center left;
+
+}
+#files .file .linenumber{
+background-color:#ECECEC;
+border-right:1px solid #DDDDDD;
+color:#AAAAAA;
+padding:1em 0.5em;
+text-align:right;
+}
+
+#files .file .meta {
+background-color:#EAEAEA;
+border-bottom:1px solid #DDDDDD;
+color:#666666;
+font-size:90%;
+overflow:hidden;
+padding:0.5em 1em;
+}
+
+
+#files .file .modified{
+background-color:#DDFFDD;
+}
+#files .file .removed{
+background-color:#FFDDDD;
+}
+#files .file {
+border:1px solid #DEDEDE;
+font-family:Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+margin-bottom:1em;
+line-height:0.9;
+}
+#files .file pre{
+padding:0px;
+margin:0px;
+}
+
+
+#files .file .data {
+background-color:#F8F8FF;
+font-size:80%;
+overflow:auto;
+}
+
+
+#files #toc .added .stat-icon{
+background-image:url('/site_media/static/pinax/images/silk/icons/page_go.png');
+background-repeat:no-repeat;
+text-indent:-9999px;
+width:20px;
+height:20px;
+display:block;
+
+}
+#files #toc .modified .stat-icon{
+background-image:url('/site_media/static/pinax/images/silk/icons/page_edit.png');
+background-repeat:no-repeat;
+text-indent:-9999px;
+width:20px;
+height:20px;
+display:block;
+}
+#toc td.status {
+padding-left:0;
+width:20px;
+}
+#toc td {
+border-bottom:1px solid #DDDDDD;
+padding:0.4em 5px;
+}
+#toc .diffstat {
+text-align:right;
+white-space:nowrap;
+}
+#toc .diffstat {
+padding-right:0;
+width:1%;
+}
+
+#crumbs ul{
+list-style-type:none;
+margin:0px;
+padding:0px;
+}
+
+#crumbs li{
+float:left;
+margin:0px;
+padding:2px;
+}
+
+
+#crumbs a{
+font-size:12px;
+}
+#crumbs span{
+font-size:12px;
+}

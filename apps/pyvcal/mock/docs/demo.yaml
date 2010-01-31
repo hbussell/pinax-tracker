@@ -1,0 +1,6 @@
+repository:
+    path: http://www.somesvnpath.com/svn
+   
+branches:
+    branch1:
+        head: revision52

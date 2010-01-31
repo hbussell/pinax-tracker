@@ -17,6 +17,9 @@
     
     <a class="topics" href="{% groupurl topic_list project  %}">Topics</a>
 
+    <a class="topics" href="{% url vcs_root project.slug %}">Source</a>
+
+
     <span class="ticket-count">
         <a title="View open Tasks in project" class="tooltip" href="{% groupurl task_list project %}">{% project_task_count project %}</a>
     </span>

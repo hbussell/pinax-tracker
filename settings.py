@@ -179,6 +179,8 @@ INSTALLED_APPS = [
     "milestones",
     "dashboard",
     "compressor",
+    "changesets",
+    "vcs",
 #    "squaretracker",
 #    "squaretracker_results",
 #    "test_notification",
@@ -230,6 +232,9 @@ LOGIN_REDIRECT_URLNAME = "what_next"
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
+
+CACHE_BACKEND = 'file://' + PROJECT_ROOT + '/cache'
+
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

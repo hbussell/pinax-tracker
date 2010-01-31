@@ -1,0 +1,34 @@
+{% extends "vcs/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load tasks_tags %}
+{% load comments_tag %}
+{% load uni_form_tags %}
+{% load attachments_tags %}
+{% load group_tags %}
+{% load theme_tags %}
+{% load wiki_tags %}
+{% load markup_tags %}
+{% load vcs_tags %}
+
+{% block head_title %}{{ milestone.summary }}{% endblock %}
+
+{% block body %}
+
+
+
+<div id="crumbs">
+    <ul>
+        <li><a href="{{project.get_absolute_url}}">{{project}}</a></li>
+        <br style="clear:left"/>
+        </ul>
+</div>
+
+
+<h2>{% trans "Edit Repository" %}</h2>
+
+{% include "vcs/_edit_repository_form.html" %}
+
+{% endblock %}
+

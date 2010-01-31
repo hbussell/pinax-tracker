@@ -70,5 +70,6 @@ textile==2.1.3
 vobject==0.8.1c
 wsgiref==0.1.2
 ybrowserauth==1.2
+GitPython==0.1.6
 -e git://github.com/alex/django-templatetag-sugar.git@8083de7f01a5cf00666fd817dfd9e24798b6136c#egg=django_templatetag_sugar-0.1_pre-py2.5-dev
 -e git://github.com/mintchaos/django_compressor.git@7f314c513410a5be6379edf1abfc4f1730a36d09#egg=django_compressor-0.5.1-py2.5-dev

@@ -1,0 +1,152 @@
+{% extends "vcs/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load tasks_tags %}
+{% load comments_tag %}
+{% load uni_form_tags %}
+{% load attachments_tags %}
+{% load group_tags %}
+{% load theme_tags %}
+{% load wiki_tags %}
+{% load markup_tags %}
+{% load vcs_tags %}
+
+{% block head_title %}{{ milestone.summary }}{% endblock %}
+
+{% block body %}
+
+
+<h2>Commit details</h2>
+<div class="single_commit" id="commit">
+    <div class="group">
+        
+  <div class="envelope commit">
+    <div class="human">
+        <div class="message"><pre>{{commit.message}}</pre></div>
+      <div class="actor">
+        <div class="gravatar">
+        </div>
+        <div class="name">{{commit.committer.name}}</div>
+        <div class="date">
+            <abbr title="{{commit_date}}" class="relatize
+                relatized">{{commit_date|timesince}}</abbr>
+        </div>
+      </div>
+      
+    </div>
+    <div class="machine">
+        <span>c</span>ommit  {{commit.id}}<br/>
+        <span>t</span>ree    <a hotkey="t" href="">{{tree_id}}</a><br/>      
+        {% if parent %}
+      <span>p</span>arent          
+      <a hotkey="p" href="">{{parent.id}}</a>  
+        {% endif %}
+    </div>
+  </div>
+    </div>
+  </div>
+
+
+<div id="files">
+<table id="toc" width="100%" cellpadding="0" cellspacing="0">
+{% for name, file in files.items %}
+<tr>    
+    {% if file.status = 'modified' %}
+    <td class="status modified">
+      <span title="modified" class="stat-icon">M</span>
+  </td>
+  {% else %}
+     <td class="status added">
+      <span title="added" class="stat-icon">A</span>
+  </td>
+  {% endif %}
+  <td class="path"><a href="#diff-0">{{name}}</a>
+  </td>
+  <td class="diffstat">
+      <a title="{{file.insertions}} additions &amp; {{file.deletions}} deletions" class="tooltipped leftwards" href="#diff-0">
+          <span class="diffstat-summary">{{file.changes}}</span>
+      </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+
+{% for name, file in files.items %}
+    <div class="file" id="diff-1">
+          <div class="meta">
+            <div class="info">
+                <span class="path"><a href="{{file.url}}">{{name}}</a></span>
+            </div>
+            <div class="actions">
+            </div>
+          </div>      
+            
+            <div class="data syntax">
+            <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+            {% for lines in file.line_diffs %}
+                {% for line in lines %}
+                    {% if line.type = 'REMOVED' %}
+                        <tr>
+                          <td {{ line.left_counter|line_id:"left" }} class="linenumber">
+                            {{ line.left_counter }}
+                        </td>
+                        <td class="linenumber">&nbsp;</td>
+                        <td width="100%" class="codeline removed {{ line.type|diff_class }}">
+                            <pre>{{ line.left_markup|safe }}</pre>
+                          </td>
+                        </tr>
+                        <tr>
+                            <td class="linenumber">&nbsp;</td>
+                          <td {{ line.right_counter|line_id:"right" }} class="linenumber">
+                            {{ line.right_counter }}
+                          </td>
+                          <td width="100%"  class="codeline modified {{ line.type|diff_class }}">
+                            <pre>{{ line.right_markup|safe }}</pre>
+                          </td>
+                      </tr> 
+                    {% endif %}
+                    {% if line.type = 'MODIFIED' %}
+                        <tr>
+                          <td {{ line.left_counter|line_id:"left" }} class="linenumber">
+                            {{ line.left_counter }}
+                        </td>
+                        <td class="linenumber">&nbsp;</td>
+                          <td width="100%"  class="codeline removed {{ line.type|diff_class }}">
+                            <pre>{{ line.left_markup|safe }}</pre>
+                          </td>
+                        </tr>
+                        <tr>
+                            <td class="linenumber">&nbsp;</td>
+                          <td {{ line.right_counter|line_id:"right" }} class="linenumber">
+                            {{ line.right_counter }}
+                          </td>
+                          <td class="codeline modified {{ line.type|diff_class }}">
+                            <pre>{{ line.right_markup|safe }}</pre>
+                          </td>
+                      </tr>
+                    {% endif %}
+                    {% if line.type = 'ADDED' %}
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td {{ line.right_counter|line_id:"right" }} class="linenumber">
+                            {{ line.right_counter }}
+                          </td>
+                          <td class="codeline modified {{ line.type|diff_class }}">
+                            <pre>{{ line.right_markup|safe }}</pre>
+                          </td>
+                        </tr>  
+                    {% endif %}
+                    
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+            </table>
+            </div>      
+     </div>
+    {% endfor %}
+</div>
+
+   {% endblock %}
