@@ -1,6 +1,6 @@
 <form method="post">
     {% csrf_token %}
-    <input type="text" name="task_name"/>
+    <input type="text" id="task_name" name="task_name"/>
     <select name="task_project">
         {% for project in projects %}
         <option value="{{project.id}}">{{project.name}}</option>
@@ -8,3 +8,4 @@
     </select>
     <input type="submit" name="add_task" value="Add"/>
 </form>
+
