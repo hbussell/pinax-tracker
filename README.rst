@@ -17,6 +17,8 @@ Try the demo: http://pinax-tracker.hbussell.com
 
 Login as demo / demo
 
+This project is released under the MIT License.
+
 ------------
 Installation
 ------------

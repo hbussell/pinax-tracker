@@ -14,7 +14,9 @@
             unselectable="on" style="-moz-user-select: none;">My Tasks</span>
        </div>
 
-    <div class="module-content">
+       <div class="module-content">
+
+{% include "dashboard/_taskbar.html" %}
     {% get_usertasks request.user as tasks %}
     <table class="task_list" width="100%" cellspacing="1">
         <thead>

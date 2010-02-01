@@ -1,5 +1,7 @@
 {% load dashboard_tags %}
 {% load group_tags %}
+
+{% include "dashboard/_taskbar.html" %}
 <div id="tasks" class="dashboard-module ui-widget ui-widget-content ui-corner-all" >
     {% get_tasks as tasks %}
     <table width="100%" cellspacing="1">
