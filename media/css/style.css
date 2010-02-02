@@ -2,3 +2,5 @@
 width:1024px!important;
 }
 
+.uniForm label{ display: block!important; float: none; padding: 0; line-height: 100%!important; width: auto!important; }
+
