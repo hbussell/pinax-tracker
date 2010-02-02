@@ -142,7 +142,7 @@
                         <tr class="task_{{ task.get_state_display }} {% cycle odd,even %}">
                             <td width="20">
                                 {% if task.assignee == request.user %}
-                                {% silk "asterisk_yellow" %}
+                                <a title="my task">{% silk "asterisk_yellow" %}</a>
                                 {% else %}
                                     &nbsp;
                                 {% endif %}
