@@ -59,11 +59,3 @@ Now you can run syncdb and start the project ::
 
     python manage.py syncdb
     python manage.py runserver
-
-   
-
-If you want to use the topics app you will have to patch pinax with this diff.
-http://code.pinaxproject.com/paste/Hegm/    
-
-
-
