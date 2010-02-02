@@ -81,3 +81,12 @@ width:210px;
 background-image:url('/site_media/static/pinax/images/silk/icons/bullet_toggle_minus.png')!important;
 background-repeat:no-repeat;
 }
+
+#task-filter{
+display:none;
+}
+#task-filter.show-options{
+display:block!important;
+}
+
+

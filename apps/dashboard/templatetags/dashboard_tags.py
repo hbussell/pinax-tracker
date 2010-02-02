@@ -36,6 +36,16 @@ def get_usertasks(context, user, asvar=None):
     else:
         return val
 
+@tag(register, [Optional([Constant("as"), Name()])])
+def get_alltasks(context, asvar=None):
+    val = Task.get_all()
+    if asvar:
+        context[asvar] = val
+        return ""
+    else:
+        return val
+
+
 @tag(register, [Variable(), Optional([Constant("as"), Name()])])
 def get_watched_tasks(context, user, asvar=None):
     val = Task.get_all().filter(assignee=user)

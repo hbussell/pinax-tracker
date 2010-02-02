@@ -18,3 +18,8 @@ $('#taskbar .option-expander').click(function (){
     $('#taskbar .extra-options').toggleClass('show-options');
     $('#taskbar .option-expander').toggleClass('hide-expander');
 });
+
+$('#filter-task-link').click(function (){
+        console.log('clicked filter');
+    $('#task-filter').toggleClass('show-options');
+});

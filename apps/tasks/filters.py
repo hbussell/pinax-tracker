@@ -48,7 +48,7 @@ class TaskProjectFilter(filters.FilterSet):
         widget = forms.CheckboxSelectMultiple,
     )
     milestone = filters.MultipleChoiceFilter(
-        choices = tuple([(m.id, m.title) for m in Milestone.objects.all()]),
+        choices = tuple([(m.id, str(m)) for m in Milestone.objects.all()]),
         widget = forms.CheckboxSelectMultiple,
     )
     
