@@ -10,7 +10,8 @@ from projects.models import Project
 from django.contrib import messages
 from django.utils.translation import ugettext
 from django.template.defaultfilters import slugify
-
+import re
+from tagging.models import Tag
 
 from pinax.utils.importlib import import_module
 from django.conf import settings
@@ -73,6 +74,14 @@ def _handle_taskbar(request):
                 except Project.DoesNotExist:
                     project = None
 
+            regex = re.compile("(?P<word>@\w+.?)")
+            tags = []
+            for match in regex.findall(name):
+                name = name.replace(match,'')
+                tag = match.strip('@').strip(' ')
+                tags.append(tag)
+
+            name = name.strip(' ')
             form_class = TaskDashboardForm
             task_form = form_class(request.user, data=request.POST)
             task_form.group = project
@@ -80,20 +89,24 @@ def _handle_taskbar(request):
                 task = task_form.save(commit=False)
                 task.summary = name
                 task.creator = request.user
+
+                if 'me' in tags:
+                    tags.remove('me')
+                    task.assignee = request.user
+                elif 'my' in tags:
+                    tags.remove('my')
+                    task.assignee = request.user
+
                 task.group = project
                 if hasattr(workflow, "initial_state"):
                     task.state = workflow.initial_state(task, request.user)
+                task.tags = ' '.join(tags)
                 task.save()
                 task.save_history()
                 messages.add_message(request, messages.SUCCESS,
                     ugettext("added task '%s'") % task.summary
                 )
                 return True
-
-            
-            
-            #task = Task(summary=name, group=project, creator=request.user)
-            #task.save()
            
 
 def _handle_projects(request):
