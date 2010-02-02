@@ -20,6 +20,5 @@ $('#taskbar .option-expander').click(function (){
 });
 
 $('#filter-task-link').click(function (){
-        console.log('clicked filter');
     $('#task-filter').toggleClass('show-options');
 });
