@@ -42,7 +42,7 @@ def dashboard(request, template_name="dashboard/dashboard.html"):
 
     filter_data = {"state": list(default_states)}
     filter_data.update(request.GET)
-    task_filter = TaskProjectFilter(filter_data, queryset=tasks)
+    task_filter = TaskProjectFilter(request.user, filter_data, queryset=tasks)
         
     group_by_querydict = request.GET.copy()
     group_by_querydict.pop("group_by", None)
@@ -144,7 +144,7 @@ def all_tasks(request, template_name="dashboard/all_tasks.html"):
                    #milestones}
     filter_data.update(request.GET)
     
-    task_filter = TaskProjectFilter(filter_data, queryset=tasks)
+    task_filter = TaskProjectFilter(request.user, filter_data, queryset=tasks)
 
 #    task_filter.filter('milestone', milestone.id)
     

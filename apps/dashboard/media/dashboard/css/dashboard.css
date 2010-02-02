@@ -89,4 +89,12 @@ display:none;
 display:block!important;
 }
 
+.task_filter > ul > li{
+display:block;
+padding:6px;
+font-size:11px;
+}
+.task_filter li >  select{
+display:block;
+}
 
