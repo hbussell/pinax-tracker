@@ -29,7 +29,7 @@ Create a new virtual env ::
     cd pinax-tracker
     virtualenv --no-site-packages env
 
-Activate virtual env ::    
+Activate the virtual env ::    
 
     source env/bin/activate
 
@@ -50,12 +50,13 @@ Build app media into static_media ::
 
     python manage.py build_static
 
+Now you can run syncdb and start the project ::
+
+    python manage.py syncdb
+    python manage.py runserver
+
 Optionally install the sample data ::
 
     python manage.py loaddata sample_data.json
 
 
-Now you can run syncdb and start the project ::
-
-    python manage.py syncdb
-    python manage.py runserver
