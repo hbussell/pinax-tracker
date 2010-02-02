@@ -74,7 +74,7 @@ class Milestone(models.Model):
     ]
     
     def __unicode__(self):
-        return self.title
+        return u"%s - %s" % (self.group, self.title)
     
     def save(self, **kwargs):
         self.modified = datetime.now()

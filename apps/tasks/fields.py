@@ -16,11 +16,12 @@ class MarkupField(models.CharField):
         self.markup_default_filter = kwargs.get("default") or MARKUP_DEFAULT_FILTER
         if self.markup_default_filter:
             kwargs["default"] = self.markup_default_filter
+            kwargs["choices"] = kwargs.get("choices", MARKUP_CHOICES)
         else:
             kwargs["choices"] = kwargs.get("choices", MARKUP_CHOICES)
         super(MarkupField, self).__init__(*args, **kwargs)
     
-    def formfield(self, **kwargs):
-        if self.markup_default_filter:
-            return None
-        return super(MarkupField, self).formfield(**kwargs)
+#    def formfield(self, **kwargs):
+        #if self.markup_default_filter:
+        #    return None
+        #return super(MarkupField, self).formfield(**kwargs)

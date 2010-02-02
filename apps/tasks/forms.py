@@ -15,7 +15,8 @@ from tagging_utils.widgets import TagAutoCompleteInput
 from tagging.forms import TagField
 
 from milestones.models import Milestone
-
+from django.conf import settings
+MARKUP_DEFAULT_FILTER = getattr(settings, "MARKUP_DEFAULT_FILTER", None)
 
 class TaskForm(forms.ModelForm):
     """
@@ -38,10 +39,12 @@ class TaskForm(forms.ModelForm):
             milestone_queryset = Milestone.get_project_milestones(group)
         else:
             assignee_queryset = self.fields["assignee"].queryset
+            milestone_queryset = Milestone.objects.all()
         
         self.fields["assignee"].queryset = assignee_queryset.order_by("username")
         self.fields["summary"].widget.attrs["size"] = 65
         self.fields["milestone"].queryset = milestone_queryset
+ #       self.fields["markup"].default = MARKUP_DEFAULT_FILTER
     
     class Meta:
         model = Task
@@ -55,6 +58,43 @@ class TaskForm(forms.ModelForm):
         group = self.group
         if group and not self.group.user_is_member(self.user):
             raise forms.ValidationError("You must be a member to create tasks")
+
+
+class TaskDashboardForm(forms.ModelForm):
+    """
+    Form for creating tasks
+    """
+    
+    tags = TagField(
+        required = False,
+        widget = TagAutoCompleteInput(app_label="tasks", model="task")
+    )
+    
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        
+        super(TaskDashboardForm, self).__init__(*args, **kwargs)
+        
+        assignee_queryset = self.fields["assignee"].queryset
+        milestone_queryset = Milestone.objects.all()
+        
+        self.fields["assignee"].queryset = assignee_queryset.order_by("username")
+#        self.fields["summary"].widget.attrs["size"] = 65
+        self.fields["milestone"].queryset = milestone_queryset
+        
+    class Meta:
+        model = Task
+        fields = ["detail", "assignee", "milestone", "tags", "markup"]
+    
+    def clean(self):
+        self.check_group_membership()
+        return self.cleaned_data
+    
+    def check_group_membership(self):
+        group = self.group
+        if group and not self.group.user_is_member(self.user):
+            raise forms.ValidationError("You must be a member to create tasks")
+
 
 
 class EditTaskForm(forms.ModelForm):

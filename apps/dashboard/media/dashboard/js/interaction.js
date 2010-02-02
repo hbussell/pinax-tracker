@@ -14,3 +14,7 @@ $('#project_name').focus(function (){
     }
 });
 
+$('#taskbar .option-expander').click(function (){
+    $('#taskbar .extra-options').toggleClass('show-options');
+    $('#taskbar .option-expander').toggleClass('hide-expander');
+});

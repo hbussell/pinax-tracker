@@ -196,6 +196,9 @@ ABSOLUTE_URL_OVERRIDES = {
 }
 
 MARKUP_FILTER_FALLBACK = "none"
+
+MARKUP_DEFAULT_FILTER =  "reStructuredText"
+
 MARKUP_CHOICES = [
     ("restructuredtext", u"reStructuredText"),
     ("textile", u"Textile"),

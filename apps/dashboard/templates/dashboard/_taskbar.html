@@ -1,11 +1,29 @@
-<form method="post">
+{% load uni_form_tags %}
+{% load i18n %}
+
+<div id="taskbar">
+<form method="post" class="uniForm">
     {% csrf_token %}
     <input type="text" id="task_name" name="task_name"/>
-    <select name="task_project">
+    <select id="task_project" name="task_project">
         {% for project in projects %}
         <option value="{{project.id}}">{{project.name}}</option>
         {% endfor %}
     </select>
-    <input type="submit" name="add_task" value="Add"/>
-</form>
 
+    <span class="option-expander"><span>&nbsp;&nbsp;&nbsp;</span></span>
+    <div class="extra-options">
+        <div class="form-block">
+            {{ taks_form.media }}
+            {{ task_form|as_uni_form }}
+        </div>
+    </div>
+    <input type="submit" name="add_task" value="Add"/>
+ <script type="text/javascript">
+        $().ready(function() {
+            $('#id_assignee').after(' <a href="#" onclick="$(\'#id_assignee\').val({{ user.id }}); return false;">{% trans "assign to me" %}</a>');
+        });
+    </script>
+
+</form>
+</div>

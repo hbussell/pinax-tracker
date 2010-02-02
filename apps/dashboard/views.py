@@ -3,12 +3,17 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from tasks.models import Task
+from tasks.forms import TaskDashboardForm
 from projects.models import Project
 
 from django.contrib import messages
 from django.utils.translation import ugettext
 from django.template.defaultfilters import slugify
 
+
+from pinax.utils.importlib import import_module
+from django.conf import settings
+workflow = import_module(getattr(settings, "TASKS_WORKFLOW_MODULE", "tasks.workflow"))
 
 def dashboard(request, template_name="dashboard/dashboard.html"):
 
@@ -17,8 +22,11 @@ def dashboard(request, template_name="dashboard/dashboard.html"):
     if _handle_projects(request):
         return HttpResponseRedirect('/')
 
+    form_class = TaskDashboardForm
+    task_form = form_class(request.user)
     return render_to_response(template_name, {
         'projects':Project.objects.all()
+        ,'task_form':task_form
     }, context_instance=RequestContext(request))
 
 def _handle_taskbar(request):
@@ -32,15 +40,30 @@ def _handle_taskbar(request):
                 try:
                     project = Project.objects.get(pk=project_id)
                 except Project.DoesNotExist:
-                    #project = None
-                    return
-            task = Task(summary=name, group=project, creator=request.user)
-            task.save()
-            messages.add_message(request, messages.SUCCESS,
-                ugettext("added task '%s'") % task.summary
-            )
-            return True
+                    project = None
 
+            form_class = TaskDashboardForm
+            task_form = form_class(request.user, data=request.POST)
+            task_form.group = project
+            if task_form.is_valid():
+                task = task_form.save(commit=False)
+                task.summary = name
+                task.creator = request.user
+                task.group = project
+                if hasattr(workflow, "initial_state"):
+                    task.state = workflow.initial_state(task, request.user)
+                task.save()
+                task.save_history()
+                messages.add_message(request, messages.SUCCESS,
+                    ugettext("added task '%s'") % task.summary
+                )
+                return True
+
+            
+            
+            #task = Task(summary=name, group=project, creator=request.user)
+            #task.save()
+           
 
 def _handle_projects(request):
     if not request.user.is_authenticated():

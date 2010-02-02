@@ -51,3 +51,33 @@ display:inline;
 .label_input{
 color:#ccc!important;
 }
+#taskbar .extra-options{
+display:none;
+}
+#taskbar .show-options{
+display:block!important;
+}
+
+#taskbar .option-expander{
+width:20px;
+height:20px;
+cursor:pointer;
+background-image:url('/site_media/static/pinax/images/silk/icons/bullet_toggle_plus.png');
+background-repeat:no-repeat;
+}
+#taskbar #task_name{
+width:410px;
+}
+
+#taskbar #task_project{
+width:200px;
+}
+#project_name{
+width:210px;
+}
+
+
+#taskbar .hide-expander{
+background-image:url('/site_media/static/pinax/images/silk/icons/bullet_toggle_minus.png')!important;
+background-repeat:no-repeat;
+}
