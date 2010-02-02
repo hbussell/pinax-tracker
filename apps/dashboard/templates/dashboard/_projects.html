@@ -11,7 +11,8 @@
 <form method="post">
     {% csrf_token %}
     <input type="text" id="project_name" name="project_name"/>
-    <input type="submit" name="add_project" value="Add"/>
+
+    <button type="submit" name="add_task" value="1" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-circle-plus"></span>Add</button>
 </form>
 
     {% get_projects as projects %}

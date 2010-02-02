@@ -33,6 +33,7 @@ def _handle_taskbar(request):
     if not request.user.is_authenticated():
         return
     if request.method == 'POST':
+        
         if request.POST.get('add_task'):
             name = request.POST.get('task_name')
             project_id = request.POST.get('task_project', None)

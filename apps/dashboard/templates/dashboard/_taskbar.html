@@ -18,7 +18,8 @@
             {{ task_form|as_uni_form }}
         </div>
     </div>
-    <input type="submit" name="add_task" value="Add"/>
+    <!--    <input type="submit" name="add_task" value="Add"/>-->
+    <button type="submit" name="add_task" value="1" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-circle-plus"></span>Add</button>
  <script type="text/javascript">
         $().ready(function() {
             $('#id_assignee').after(' <a href="#" onclick="$(\'#id_assignee\').val({{ user.id }}); return false;">{% trans "assign to me" %}</a>');
