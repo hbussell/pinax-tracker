@@ -3,7 +3,6 @@
 {% load tagging_tags %}
 {% load group_tags %}
 {% load theme_tags %}
-
 {% load account_tags %}
 {% load shorttimesince_tag %}
 {% load humanize %}
@@ -98,17 +97,19 @@
 
 
 </div>
+    <div style="padding:10px;float:right">
+        {% silk "wrench" %}<a href="#task-filter" id="filter-task-link" title="Filter Tasks">Filter tasks</a>
+    </div>
     <table class="task_list" width="100%" cellspacing="1">
         <thead>
         <tr>       
             <th width="40">&nbsp;</th>
             <th width="40">ID</th>
             <th>Task</th>
-            <th width="120">Age</th>
+            <th width="120">Updated</th>
             <th width="180">Project</th>
             <th width="120">Tags</th>
             <th width="100">
-                <a style="float:right" href="#task-filter" id="filter-task-link" title="Filter Tasks">{% silk "wrench" %}</a>
                 Status</th>
         </tr>
     </thead>

@@ -38,3 +38,7 @@ font-size:10px!important;
     button.fg-button .ui-icon{
 margin-left:-20px!important;
     }
+
+table.task_list td {
+border:1px solid #d7d7d7;
+}
